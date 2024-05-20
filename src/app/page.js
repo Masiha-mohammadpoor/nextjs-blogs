@@ -9,10 +9,10 @@ const Home = () => {
   const [showCategoryMenu , setShowCategoryMenu] = useState(true);
   
   return (
-    <main className="container mx-auto lg:max-w-screen-xl">
-    <div className="container grid gap-3 md:grid-cols-12 min-h-screen md:grid-rows-[60px_minmax(300px,_1fr)]">
+    <main className="mx-auto lg:max-w-screen-xl">
+    <div className="container mx-auto grid gap-3 md:grid-cols-12 min-h-screen md:grid-rows-[60px_minmax(300px,_1fr)]">
       {/* category */}
-      <section className="md:col-span-3 md:row-span-2">
+      <section className="hidden md:block md:col-span-3 md:row-span-2">
         <div>
           <div onClick={() => setShowCategoryMenu(prev => !prev)} className="p-3 rounded-t-xl flex justify-between items-center cursor-pointer bg-purple-300">
             <p className="text-purple-600">دسته بندی مقالات</p>
@@ -41,8 +41,12 @@ const Home = () => {
         </section>
       {/* blogs */}
       <section className="bg-blue-300 col-span-12 md:col-span-9 grid grid-cols-6 gap-5">
-        {[1,2,3,4,5,6].map(i => {
-          return <div className="bg-gray-200 rounded-lg col-span-6 md:col-span-3 lg:col-span-2" key={i}>post {i}</div>
+        {["nextjs.jpg","nodejs.jpg","nuxtjs.jpg","reactjs.jpg","tailwind.jpg","vuejs.jpg"].map(i => {
+          return <div className="bg-gray-200 rounded-lg col-span-6 md:col-span-3 lg:col-span-2" key={i}>
+              <div className="aspect-w-16 aspect-h-9">
+                <img src={`/images/${i}`} alt={i} className="w-full object-cover"/>
+              </div>
+          </div>
         })}
       </section>
     </div>
