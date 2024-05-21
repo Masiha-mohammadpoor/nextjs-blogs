@@ -12,14 +12,26 @@ const getAllPosts = async () => {
   }
 }
 
+const getCategories = async () => {
+  try{
+    const {data} = await axios.get("http://localhost:5000/api/post-category");
+    return data;
+  }catch(err){
+    console.error(err);
+  }
+}
+
+
+
 const Home = async () => {
   const blogs = await getAllPosts();
+  const categories = await getCategories();
 
   return (
-    <main className="mx-auto lg:max-w-screen-xl">
-    <div className="container mx-auto grid gap-3 md:grid-cols-12 min-h-screen md:grid-rows-[60px_minmax(300px,_1fr)]">
+    <main className="container mx-auto lg:max-w-screen-xl px-3">
+    <div className="grid gap-5 md:grid-cols-12 min-h-screen md:grid-rows-[60px_minmax(300px,_1fr)]">
       {/* category */}
-      <CategoryMenu/>
+      <CategoryMenu categories={categories}/>
       {/* sortBar */}
         <section className="hidden md:block md:col-span-9">
           <div className="bg-slate-100 flex rounded-xl overflow-hidden pr-3">
