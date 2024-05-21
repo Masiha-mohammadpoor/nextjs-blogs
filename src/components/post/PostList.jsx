@@ -33,7 +33,7 @@ const PostList = ({blogData}) => {
                 </div>
                 <div className="flex items-center">
                   <FaRegClock size={14}  className="text-gray-400"/>
-                  <p className="text-xs text-gray-500 font-bold mr-1"> دقیقه {blog.readingTime}</p>
+                  <p className="text-xs text-gray-500 font-bold mr-1">{blog.readingTime} دقیقه</p>
                 </div>
               </div>
               </div>
