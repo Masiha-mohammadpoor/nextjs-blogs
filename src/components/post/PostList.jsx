@@ -10,14 +10,14 @@ const PostList = ({blogData}) => {
         {blogs.map(blog => {
           return <div className="flex flex-col overflow-hidden max-h-[320px] bg-gray-200 rounded-lg col-span-6 min-[480px]:col-span-3 lg:col-span-2" key={blog._id}>
             {/* blogs image */}
-            <Link href={`/posts/${blog.title}`}>
+            <Link href={`/posts/${blog.hashId}/${blog.slug}`}>
             <div className="aspect-w-16 aspect-h-10">
                 <img src={blog.coverImage} alt={blog.category.title} className="w-full object-cover"/>
             </div>
             </Link>
             {/*blogs info */}
             <div className="p-3 flex flex-col justify-between flex-1">
-              <Link href={`/posts/${blog.title}`}>
+              <Link href={`/posts/${blog.hashId}/${blog.slug}`}>
                 <p className="font-bold mb-4">{blog.title}</p>
               </Link> 
               <div className="flex flex-col">

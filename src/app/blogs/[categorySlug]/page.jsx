@@ -3,6 +3,7 @@ import CategoryMenu from "@/components/CategoryMenu/CategoryMenu";
 import axios from "axios";
 import SortBar from "@/components/SortBar/SortBar";
 
+
 const getAllPosts = async ({categorySlug}) => {
   try{
     const {data} = await axios.get(`http://localhost:5000/api/posts?limit=6&page=1&categorySlug=${categorySlug}` , {catch : "no-store"});

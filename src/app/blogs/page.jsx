@@ -6,6 +6,7 @@ import SortBar from "@/components/SortBar/SortBar";
 const getAllPosts = async () => {
   try{
     const {data} = await axios.get("http://localhost:5000/api/posts?limit=6" , {catch : "no-store"});
+    console.log(data)
     return data;
   }catch(err){
     console.error(err);
@@ -23,7 +24,7 @@ const getCategories = async () => {
 
 
 
-const Blogs = async () => {
+const BlogsPage = async () => {
   const blogs = await getAllPosts();
   const categories = await getCategories();
 
@@ -41,4 +42,4 @@ const Blogs = async () => {
   );
 }
  
-export default Blogs;
+export default BlogsPage;
