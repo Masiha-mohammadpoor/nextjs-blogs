@@ -1,7 +1,14 @@
 import axios from "axios";
 import { toPersianDigits } from "@/utils/toPersianDigits";
-import { FaRegBookmark, FaLink } from "react-icons/fa";
+import {
+  FaRegBookmark,
+  FaLink,
+  FaTelegramPlane,
+  FaLinkedin,
+  FaTwitter,
+} from "react-icons/fa";
 import Link from "next/link";
+import PostInteraction from "@/components/post/PostInteraction";
 
 const getPostData = async (params) => {
   try {
@@ -55,10 +62,14 @@ const PostPage = async ({ params }) => {
           </button>
         </article>
       </header>
-      <main className="px-3 prose prose-xl prose-img:rounded-xl prose-h1:text-2xl prose-h1:font-black prose-h3:text-xl prose-h3:font-black sm:prose-h1:text-3xl sm:prose-h3:text-2xl max-w-screen-md mx-auto">
+      <main className="mb-8 px-3 prose prose-xl prose-img:rounded-xl prose-h1:text-2xl prose-h1:font-black prose-h3:text-xl prose-h3:font-black sm:prose-h1:text-3xl sm:prose-h3:text-2xl max-w-screen-md mx-auto">
         <h1>{post.title}</h1>
         <div className="mb-28 w-full mx-auto aspect-w-16 aspect-h-9">
-          <img src={post.coverImage} alt={post.englishTitle} className="object-cover"/>
+          <img
+            src={post.coverImage}
+            alt={post.englishTitle}
+            className="object-cover"
+          />
         </div>
         <h3>عنوان تستی اول</h3>
         <p>
@@ -89,6 +100,32 @@ const PostPage = async ({ params }) => {
           قرار گیرد.
         </p>
       </main>
+      <section className="px-3 sm:px-0 max-w-screen-md mx-auto flex gap-x-4 gap-y-2 mb-8 flex-wrap">
+        {["React.js", "Next.js", "Node.js", "Vue.js"].map((category) => {
+          return (
+            <div
+              className="px-3 py-0.5 rounded-2xl bg-gray-400 text-gray-700 text-sm"
+              key={category}
+            >
+              {category}
+            </div>
+          );
+        })}
+      </section>
+      <section className="flex justify-between items-center px-3 sm:px-0 max-w-screen-md mx-auto gap-x-4">
+        <PostInteraction blog={post} />
+        <div className="flex gap-x-4 text-xl text-gray-500">
+          <a href="#" className="transition-all duration-500 hover:text-black">
+            <FaLinkedin />
+          </a>
+          <a href="#" className="transition-all duration-500 hover:text-black">
+            <FaTelegramPlane />
+          </a>
+          <a href="#" className="transition-all duration-500 hover:text-black">
+            <FaTwitter />
+          </a>
+        </div>
+      </section>
     </div>
   );
 };
