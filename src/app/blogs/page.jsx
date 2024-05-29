@@ -36,7 +36,7 @@ const BlogsPage = async () => {
         {/* sortBar */}
         <SortBar/>
         {/* blogs */}
-        <PostList blogData={blogs}/>
+        <PostList blogData={blogs.data.docs}/>
       </div>
     </main>
   );

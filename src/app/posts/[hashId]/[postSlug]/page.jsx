@@ -12,6 +12,7 @@ import Link from "next/link";
 import PostInteraction from "@/components/post/PostInteraction";
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { useEffect , useState } from "react";
+import PostList from "@/components/post/PostList";
 
 
 const PostPage = ({ params }) => {
@@ -140,6 +141,14 @@ const PostPage = ({ params }) => {
           <a target="_blank" href={`https://twitter.com/share?text=${post.title}&url=${process.env.DOMAIN_URL}/posts/${post.hashId}/${post.slug}`} className="transition-all duration-500 hover:text-black">
             <FaTwitter />
           </a>
+        </div>
+      </section>
+      {/* related posts */}
+      <section className="my-10 max-w-screen-md mx-auto">
+        <div className="mb-5 w-full h-0.5 bg-black"></div>
+        <h1 className="mb-5 text-3xl font-black">پست های مشابه</h1>
+        <div className="px-12 sm:px-0">
+          <PostList blogData={post.related}/>
         </div>
       </section>
     </div>

@@ -9,14 +9,14 @@ import PostInteraction from "./PostInteraction";
 import { toPersianDigits } from "@/utils/toPersianDigits";
 
 const PostList = ({ blogData }) => {
-  const blogs = blogData.data.docs;
+  // const blogs = blogData.data.docs;
 
   return (
     <section className="mb-5 col-span-12 md:col-span-9 grid grid-cols-6 gap-5 container mx-auto">
-      {blogs.map((blog) => {
+      {blogData.map((blog) => {
         return (
           <div
-            className="flex flex-col overflow-hidden max-h-[320px] bg-gray-200 rounded-lg col-span-6 min-[480px]:col-span-3 lg:col-span-2"
+            className="flex flex-col overflow-hidden max-h-[365px] bg-gray-200 rounded-lg col-span-6 min-[480px]:col-span-3 lg:col-span-2"
             key={blog._id}
           >
             {/* blogs image */}
