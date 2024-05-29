@@ -6,7 +6,7 @@ const SingleComment = ({ comment }) => {
   const [response , setResponse] = useState("");
 
   return (
-    <div className="w-full p-2 sm:p-3 border-2 border-gray-600 rounded-md">
+    <div className="mb-4 w-full p-2 sm:p-3 border-2 border-gray-600 rounded-md">
       <div className="flex items-center mb-3">
         <FaRegUserCircle size={40} />
         <div className="mr-4">
