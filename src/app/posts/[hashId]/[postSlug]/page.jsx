@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import axios from "axios";
 import { toPersianDigits } from "@/utils/toPersianDigits";
 import {
@@ -10,36 +10,40 @@ import {
 } from "react-icons/fa";
 import Link from "next/link";
 import PostInteraction from "@/components/post/PostInteraction";
-import {CopyToClipboard} from 'react-copy-to-clipboard';
-import { useEffect , useState } from "react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { useEffect, useState } from "react";
 import PostList from "@/components/post/PostList";
-
+import PostComments from "@/components/PostComments/PostComments";
 
 const PostPage = ({ params }) => {
-  const [post , setPost] = useState(null);
-  const [copied , setCopied] = useState(false);
+  const [post, setPost] = useState(null);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const getPostData = async () => {
-      try{
-        const {data : {data}} = await axios.get(`http://localhost:5000/api/posts/${params.postSlug}` , {catch : "no-store"})
+      try {
+        const {
+          data: { data },
+        } = await axios.get(
+          `http://localhost:5000/api/posts/${params.postSlug}`,
+          { catch: "no-store" }
+        );
         setPost(data);
-      }catch(err){
-        console.error(err)
-      }  
-    }
+      } catch (err) {
+        console.error(err);
+      }
+    };
     getPostData();
-  
-  } , []);
+  }, []);
 
   const copyHandler = () => {
     setCopied(true);
     setTimeout(() => {
-      setCopied(false)
-    },1000)
-  }
-  
-  if(!post) return <div className="text-center mt-20">loading...</div>;
+      setCopied(false);
+    }, 1000);
+  };
+
+  if (!post) return <div className="text-center mt-20">loading...</div>;
   return (
     <div className="container mx-auto lg:max-w-screen-xl">
       <header className="px-3 mb-20 flex flex-col sm:flex-row justify-between items-center max-w-screen-md mx-auto">
@@ -67,11 +71,17 @@ const PostPage = ({ params }) => {
           </div>
         </article>
         <article className="w-36 flex justify-between">
-          <CopyToClipboard text={`http://localhost:3000/posts/${post.hashId}/${post.slug}`}
-            onCopy={copyHandler}>
+          <CopyToClipboard
+            text={`http://localhost:3000/posts/${post.hashId}/${post.slug}`}
+            onCopy={copyHandler}
+          >
             <button className="relative flex items-center border border-gray-600 rounded-2xl transition-all duration-300 hover:bg-gray-600 hover:text-white px-2 py-1">
               لینک <FaLink className="mr-1" />{" "}
-              {copied ? <span className="absolute top-6 left-12 w-16 inline-block px-2 py-1 rounded-2xl rounded-tl bg-blue-500 text-white z-10">کپی شد</span> : null}
+              {copied ? (
+                <span className="absolute top-6 left-12 w-16 inline-block px-2 py-1 rounded-2xl rounded-tl bg-blue-500 text-white z-10">
+                  کپی شد
+                </span>
+              ) : null}
             </button>
           </CopyToClipboard>
           <button className="flex items-center border border-gray-600 rounded-2xl transition-all duration-300 hover:bg-gray-600 hover:text-white px-2 py-1">
@@ -132,13 +142,25 @@ const PostPage = ({ params }) => {
       <section className="flex justify-between items-center px-3 sm:px-0 max-w-screen-md mx-auto gap-x-4">
         <PostInteraction blog={post} />
         <div className="flex gap-x-4 text-xl text-gray-500">
-          <a target="_blank" href={`https://www.linkedin.com/sharing/share-offsite/?url=${process.env.DOMAIN_URL}/posts/${post.hashId}/${post.slug}&text=${post.title}`} className="transition-all duration-500 hover:text-black">
+          <a
+            target="_blank"
+            href={`https://www.linkedin.com/sharing/share-offsite/?url=${process.env.DOMAIN_URL}/posts/${post.hashId}/${post.slug}&text=${post.title}`}
+            className="transition-all duration-500 hover:text-black"
+          >
             <FaLinkedin />
           </a>
-          <a target="_blank" href={`https://telegram.me/share/url?url=${process.env.DOMAIN_URL}/posts/${post.hashId}/${post.slug}&text=${post.title}`} className="transition-all duration-500 hover:text-black">
+          <a
+            target="_blank"
+            href={`https://telegram.me/share/url?url=${process.env.DOMAIN_URL}/posts/${post.hashId}/${post.slug}&text=${post.title}`}
+            className="transition-all duration-500 hover:text-black"
+          >
             <FaTelegramPlane />
           </a>
-          <a target="_blank" href={`https://twitter.com/share?text=${post.title}&url=${process.env.DOMAIN_URL}/posts/${post.hashId}/${post.slug}`} className="transition-all duration-500 hover:text-black">
+          <a
+            target="_blank"
+            href={`https://twitter.com/share?text=${post.title}&url=${process.env.DOMAIN_URL}/posts/${post.hashId}/${post.slug}`}
+            className="transition-all duration-500 hover:text-black"
+          >
             <FaTwitter />
           </a>
         </div>
@@ -148,8 +170,12 @@ const PostPage = ({ params }) => {
         <div className="mb-5 w-full h-0.5 bg-black"></div>
         <h1 className="mb-5 text-3xl font-black">پست های مشابه</h1>
         <div className="px-12 sm:px-0">
-          <PostList blogData={post.related}/>
+          <PostList blogData={post.related} />
         </div>
+      </section>
+      {/* comments */}
+      <section className="max-w-screen-md mx-auto mb-20">
+        <PostComments post={post}/>
       </section>
     </div>
   );

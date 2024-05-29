@@ -36,7 +36,7 @@ const CategoryPage = async ({params}) => {
         {/* sortBar */}
         <SortBar/>
         {/* blogs */}
-        <PostList blogData={blogs}/>
+        <PostList blogData={blogs.data.docs} categoryPage={true}/>
       </div>
     </main>
   );
