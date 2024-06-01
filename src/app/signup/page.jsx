@@ -1,9 +1,87 @@
-const SignUp = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+"use client"
+import { useFormik } from "formik";
+import Input from "@/components/Input/Input";
+import * as Yup from "yup";
+import { toPersianDigits } from "@/utils/toPersianDigits";
+
+const initialValues = {
+  name: "",
+  phoneNumber: "",
+  email: "",
+  password: "",
+  repeatPassword: "",
+};
+
+const submitHandler = (values) => {
+  console.log(values)
 }
- 
+
+const SignUp = () => {
+
+  const validationSchema = Yup.object({
+    name : Yup.string().required("نام را وارد کنید"),
+    phoneNumber : Yup.string().required("شماره همراه را وارد کنید").matches(/^(\+98|0)?9\d{9}$/ , "شماره همراه اشتباه است").nullable(),
+    email : Yup.string().email("ایمیل نادرست است").required("ایمیل را وارد کنید"),
+    password : Yup.string().required("رمز عبور را وارد کنید").min(8 , `حداقل باید ${toPersianDigits(8)} کاراکتر باشد`),
+    repeatPassword : Yup.string().required("رمز عبور را تکرار کنید").oneOf([Yup.ref("password") , null] , "رمز عبور تفاوت دارد")
+
+  })
+
+  const formik = useFormik({
+    initialValues,
+    onSubmit: submitHandler,
+    validationSchema,
+  });
+
+
+  return (
+    <div>
+      <form onSubmit={formik.handleSubmit} className="mt-5 w-1/4 mx-auto">
+        <h1 className="mb-2 text-2xl font-bold text-blue-600">ورود</h1>
+        <Input
+          label="نام"
+          name="name"
+          formik={formik}
+          type="text"
+          placeholder="نام ..."
+        />
+        <Input
+          label="شماره همراه"
+          name="phoneNumber"
+          formik={formik}
+          type="number"
+          placeholder="شماره همراه ..."
+        />
+        <Input
+          label="ایمیل"
+          name="email"
+          formik={formik}
+          type="email"
+          placeholder="ایمیل ..."
+        />
+        <Input
+          label="رمز عبور"
+          name="password"
+          formik={formik}
+          type="password"
+          placeholder="رمز عبور ..."
+        />
+        <Input
+          label="تکرار رمز عبور"
+          name="repeatPassword"
+          formik={formik}
+          type="password"
+          placeholder="تکرار رمز عبور..."
+        />
+        <button
+          type="submit"
+          className="w-full mt-3 bg-blue-500 rounded-md text-white px-7 py-2 "
+        >
+          ورود
+        </button>
+      </form>
+    </div>
+  );
+};
+
 export default SignUp;

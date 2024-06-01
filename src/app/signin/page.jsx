@@ -29,7 +29,7 @@ const SignIn = () => {
 
   return (
     <div >
-      <form onSubmit={formik.handleSubmit} className="w-1/4 mx-auto">
+      <form onSubmit={formik.handleSubmit} className="mt-16 w-1/4 mx-auto">
         <h1 className="mb-5 text-2xl font-bold text-blue-600">ورود</h1>
         <Input
           label="ایمیل"

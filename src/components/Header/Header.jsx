@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Header = () => {
     return (
-        <header className="mb-16 flex justify-between prose-ul:flex shadow-md p-3.5 px-20 prose-li:px-4">
+        <header className="flex justify-between prose-ul:flex shadow-md p-3.5 px-20 prose-li:px-4">
         <ul>
           <li><Link href="/">خانه</Link></li>
           <li><Link href="/blogs">بلاگ ها</Link></li>

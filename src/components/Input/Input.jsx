@@ -9,14 +9,12 @@ const Input = ({ formik, label, name, type, placeholder = "" }) => {
       <input
       dir="ltr"
         type={type || "text"}
-        value={formik.values[name]}
         name={name}
         id={name}
         placeholder={placeholder}
         autoComplete="off"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        className="outline-none w-full mb-7 border-2 px-2 py-1 rounded-lg border-gray-500"
+        {...formik.getFieldProps(name)}
+        className="outline-none w-full mb-3 border-2 px-2 py-1 rounded-lg border-gray-500"
       />
     </div>
   );
