@@ -4,28 +4,27 @@ import Input from "@/components/Input/Input";
 import * as Yup from "yup";
 import { toPersianDigits } from "@/utils/toPersianDigits";
 import axios from "axios";
-import { toast } from 'react-hot-toast';
+import { useAuthActions } from "@/context/AuthProvider";
 
 const initialValues = {
   email: "",
   password: "",
 };
 
-const submitHandler = async (values) => {
-  try{
-    const {data} = await axios.post("http://localhost:5000/api/user/signin" , values , {withCredentials : true})
-    toast.success("با موفقیت وارد شدید !!!")
-  }catch(err){
-    toast.error(err?.response?.data?.message)
-  }
-}
 
 const SignIn = () => {
+
+  const dispatch = useAuthActions();
 
   const validationSchema = Yup.object({
     email : Yup.string().email("ایمیل نادرست است").required("ایمیل را وارد کنید"),
     password : Yup.string().required("رمز عبور را وارد کنید").min(8 , `حداقل باید ${toPersianDigits(8)} کاراکتر باشد`)
   })
+
+  const submitHandler = async (values) => {
+    dispatch({type : "SIGNIN" , payload : values})
+  }
+  
 
   const formik = useFormik({
     initialValues,
@@ -55,7 +54,7 @@ const SignIn = () => {
         />
         <button
           type="submit"
-          className="w-full mt-3 bg-blue-500 rounded-md text-white px-7 py-2 ">ورود</button>
+          className="w-full mt-3 bg-blue-500 rounded-lg text-white px-7 py-2 ">ورود</button>
       </form>
     </div>
   );
