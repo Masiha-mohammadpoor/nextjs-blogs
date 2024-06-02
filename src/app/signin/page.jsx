@@ -3,16 +3,23 @@ import { useFormik } from "formik";
 import Input from "@/components/Input/Input";
 import * as Yup from "yup";
 import { toPersianDigits } from "@/utils/toPersianDigits";
-
+import axios from "axios";
+import { toast } from 'react-hot-toast';
 
 const initialValues = {
   email: "",
   password: "",
 };
 
-const submitHandler = (values) => {
-  console.log(values);
-};
+const submitHandler = async (values) => {
+  try{
+    const {data} = await axios.post("http://localhost:5000/api/user/signin" , values , {withCredentials : true})
+    toast.success("با موفقیت وارد شدید !!!")
+  }catch(err){
+    toast.error(err?.response?.data?.message)
+  }
+}
+
 const SignIn = () => {
 
   const validationSchema = Yup.object({
@@ -25,6 +32,7 @@ const SignIn = () => {
     onSubmit: submitHandler,
     validationSchema,
   });
+
 
 
   return (

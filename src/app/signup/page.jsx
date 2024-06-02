@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import Input from "@/components/Input/Input";
 import * as Yup from "yup";
 import { toPersianDigits } from "@/utils/toPersianDigits";
+import axios from "axios";
 
 const initialValues = {
   name: "",
@@ -12,8 +13,7 @@ const initialValues = {
   repeatPassword: "",
 };
 
-const submitHandler = (values) => {
-  console.log(values)
+const submitHandler = async (values) => {
 }
 
 const SignUp = () => {
