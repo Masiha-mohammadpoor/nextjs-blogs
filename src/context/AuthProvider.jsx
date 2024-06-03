@@ -18,9 +18,15 @@ const reducer = async (state, action) => {
     case "SIGNIN_PENDING":
       return { ...state, loading: true };
     case "SIGNIN_SUCCESS":
-      return { ...state, loadng: false, user: action.user };
+      return { ...state, loading: false, user: action.user };
     case "SIGNIN_REJECT":
       return { ...state, error: action.error, loading: false };
+    case "SIGNUP_PENDING":
+      return { ...state, loading: true };
+    case "SIGNUP_SUCCESS":
+      return { ...state, loading: false, user: action.user };
+    case "SIGNUP_REJECT":
+      return { ...state, loading: false, error: action.error };
     default:
       return state;
   }
@@ -42,6 +48,26 @@ const asyncActionHandlers = {
       } catch (err) {
         dispatch({
           type: "SIGNIN_REJECT",
+          error: err?.response?.data?.message,
+        });
+        toast.error(err?.response?.data?.message);
+      }
+    },
+  SIGNUP:
+    ({ dispatch }) =>
+    async (action) => {
+      dispatch({ type: "SIGNUP_PENDING" });
+      try {
+        const { data: user } = await axios.post(
+          "http://localhost:5000/api/user/signup",
+          action.payload,
+          { withCredentials: true }
+        );
+        dispatch({ type: "SIGNUP_SUCCESS", user });
+        toast.success("با موفقیت ثبت نام شدید!!!");
+      } catch (err) {
+        dispatch({
+          type: "SIGNUP_REJECT",
           error: err?.response?.data?.message,
         });
         toast.error(err?.response?.data?.message);

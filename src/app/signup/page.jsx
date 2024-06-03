@@ -1,9 +1,10 @@
-"use client"
+"use client";
 import { useFormik } from "formik";
 import Input from "@/components/Input/Input";
 import * as Yup from "yup";
 import { toPersianDigits } from "@/utils/toPersianDigits";
 import axios from "axios";
+import { useAuthActions } from "@/context/AuthProvider";
 
 const initialValues = {
   name: "",
@@ -13,26 +14,39 @@ const initialValues = {
   repeatPassword: "",
 };
 
-const submitHandler = async (values) => {
-}
-
 const SignUp = () => {
+  const dispatch = useAuthActions();
+
+  const submitHandler = async (values) => {
+    const { name, email, phoneNumber, password } = values;
+    dispatch({
+      type: "SIGNUP",
+      payload: { name, email, phoneNumber, password },
+    });
+  };
 
   const validationSchema = Yup.object({
-    name : Yup.string().required("نام را وارد کنید"),
-    phoneNumber : Yup.string().required("شماره همراه را وارد کنید").matches(/^(\+98|0)?9\d{9}$/ , "شماره همراه اشتباه است").nullable(),
-    email : Yup.string().email("ایمیل نادرست است").required("ایمیل را وارد کنید"),
-    password : Yup.string().required("رمز عبور را وارد کنید").min(8 , `حداقل باید ${toPersianDigits(8)} کاراکتر باشد`),
-    repeatPassword : Yup.string().required("رمز عبور را تکرار کنید").oneOf([Yup.ref("password") , null] , "رمز عبور تفاوت دارد")
-
-  })
+    name: Yup.string().required("نام را وارد کنید"),
+    phoneNumber: Yup.string()
+      .required("شماره همراه را وارد کنید")
+      .matches(/^(\+98|0)?9\d{9}$/, "شماره همراه اشتباه است")
+      .nullable(),
+    email: Yup.string()
+      .email("ایمیل نادرست است")
+      .required("ایمیل را وارد کنید"),
+    password: Yup.string()
+      .required("رمز عبور را وارد کنید")
+      .min(8, `حداقل باید ${toPersianDigits(8)} کاراکتر باشد`),
+    repeatPassword: Yup.string()
+      .required("رمز عبور را تکرار کنید")
+      .oneOf([Yup.ref("password"), null], "رمز عبور تفاوت دارد"),
+  });
 
   const formik = useFormik({
     initialValues,
     onSubmit: submitHandler,
     validationSchema,
   });
-
 
   return (
     <div>
@@ -49,7 +63,7 @@ const SignUp = () => {
           label="شماره همراه"
           name="phoneNumber"
           formik={formik}
-          type="number"
+          type="text"
           placeholder="شماره همراه ..."
         />
         <Input
@@ -74,6 +88,7 @@ const SignUp = () => {
           placeholder="تکرار رمز عبور..."
         />
         <button
+          disabled={!(formik.isValid && formik.dirty)}
           type="submit"
           className="w-full mt-3 bg-blue-500 rounded-md text-white px-7 py-2 "
         >

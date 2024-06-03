@@ -53,6 +53,7 @@ const SignIn = () => {
           placeholder="رمز عبور ..."
         />
         <button
+          disabled={!(formik.isValid && formik.dirty)}
           type="submit"
           className="w-full mt-3 bg-blue-500 rounded-lg text-white px-7 py-2 ">ورود</button>
       </form>
