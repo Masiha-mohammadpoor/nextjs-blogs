@@ -3,7 +3,6 @@ import { toPersianDigits } from "@/utils/toPersianDigits";
 import {  FaRegClock , FaRegCommentDots , FaRegHeart , FaRegBookmark} from "react-icons/fa";
 
 const PostInteraction = ({blog}) => {
-    console.log(blog)
     return (
         <div className="flex gap-x-2">
           <button className="transition-all duration-300 hover:bg-gray-600 hover:text-white flex items-center py-1 px-1 rounded-lg text-gray-600 bg-gray-400"><FaRegCommentDots/> <span className="text-xs font-bold mr-1">{toPersianDigits(blog.commentsCount)}</span></button>

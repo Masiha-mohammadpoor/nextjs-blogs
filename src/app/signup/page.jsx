@@ -3,7 +3,6 @@ import { useFormik } from "formik";
 import Input from "@/components/Input/Input";
 import * as Yup from "yup";
 import { toPersianDigits } from "@/utils/toPersianDigits";
-import axios from "axios";
 import { useAuthActions } from "@/context/AuthProvider";
 
 const initialValues = {
@@ -51,7 +50,7 @@ const SignUp = () => {
   return (
     <div>
       <form onSubmit={formik.handleSubmit} className="mt-5 w-1/4 mx-auto">
-        <h1 className="mb-2 text-2xl font-bold text-blue-600">ورود</h1>
+        <h1 className="mb-2 text-2xl font-bold text-blue-600">ثبت نام</h1>
         <Input
           label="نام"
           name="name"

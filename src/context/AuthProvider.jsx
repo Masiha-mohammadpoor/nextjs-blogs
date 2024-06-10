@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext } from "react";
+import { createContext, useContext , useEffect} from "react";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useReducerAsync } from "use-reducer-async";
@@ -18,9 +18,9 @@ const reducer = async (state, action) => {
     case "SIGNIN_PENDING":
       return { ...state, loading: true };
     case "SIGNIN_SUCCESS":
-      return { ...state, loading: false, user: action.user };
+      return { error: null, loading: false, user: action.payload };
     case "SIGNIN_REJECT":
-      return { ...state, error: action.error, loading: false };
+      return { user: null, error: action.error, loading: false };
     case "SIGNUP_PENDING":
       return { ...state, loading: true };
     case "SIGNUP_SUCCESS":
@@ -43,7 +43,8 @@ const asyncActionHandlers = {
           action.payload,
           { withCredentials: true }
         );
-        dispatch({ type: "SIGNIN_SUCCESS", user });
+        // window.location.href = "/";
+        dispatch({ type: "SIGNIN_SUCCESS", payload: user });
         toast.success("با موفقیت وارد شدید !!!");
       } catch (err) {
         dispatch({
@@ -63,6 +64,7 @@ const asyncActionHandlers = {
           action.payload,
           { withCredentials: true }
         );
+        window.location.href = "/";
         dispatch({ type: "SIGNUP_SUCCESS", user });
         toast.success("با موفقیت ثبت نام شدید!!!");
       } catch (err) {
@@ -73,17 +75,39 @@ const asyncActionHandlers = {
         toast.error(err?.response?.data?.message);
       }
     },
+  // LOAD_USER:
+  //   ({ dispatch }) =>
+  //   async (action) => {
+  //     dispatch({ type: "SIGNUP_PENDING" });
+  //     try {
+  //       const { data: user } = await axios.get(
+  //         "http://localhost:5000/api/user/load",
+  //         { withCredentials: true }
+  //       );
+  //       window.location.href = "/";
+  //       dispatch({ type: "SIGNUP_SUCCESS", user });
+  //       toast.success("با موفقیت ثبت نام شدید!!!");
+  //     } catch (err) {
+  //       dispatch({
+  //         type: "SIGNUP_REJECT",
+  //         error: err?.response?.data?.message,
+  //       });
+  //       toast.error(err?.response?.data?.message);
+  //     }
+  //   },
 };
 
 const AuthProvider = ({ children }) => {
-  const [user, dispatch] = useReducerAsync(
+  const [data, dispatch] = useReducerAsync(
     reducer,
     initialState,
     asyncActionHandlers
   );
 
+
+
   return (
-    <AuthContext.Provider value={user}>
+    <AuthContext.Provider value={data}>
       <AuthContextDispatcher.Provider value={dispatch}>
         {children}
       </AuthContextDispatcher.Provider>
@@ -95,3 +119,4 @@ export default AuthProvider;
 
 export const useAuth = () => useContext(AuthContext);
 export const useAuthActions = () => useContext(AuthContextDispatcher);
+
