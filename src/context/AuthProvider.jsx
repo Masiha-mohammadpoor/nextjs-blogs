@@ -24,7 +24,7 @@ const reducer = async (state, action) => {
     case "SIGNUP_PENDING":
       return { ...state, loading: true };
     case "SIGNUP_SUCCESS":
-      return { ...state, loading: false, user: action.user };
+      return { ...state, loading: false, user: action.payload };
     case "SIGNUP_REJECT":
       return { ...state, loading: false, error: action.error };
     default:
@@ -65,7 +65,7 @@ const asyncActionHandlers = {
           { withCredentials: true }
         );
         window.location.href = "/";
-        dispatch({ type: "SIGNUP_SUCCESS", user });
+        dispatch({ type: "SIGNUP_SUCCESS", payload : user });
         toast.success("با موفقیت ثبت نام شدید!!!");
       } catch (err) {
         dispatch({
@@ -75,26 +75,24 @@ const asyncActionHandlers = {
         toast.error(err?.response?.data?.message);
       }
     },
-  // LOAD_USER:
-  //   ({ dispatch }) =>
-  //   async (action) => {
-  //     dispatch({ type: "SIGNUP_PENDING" });
-  //     try {
-  //       const { data: user } = await axios.get(
-  //         "http://localhost:5000/api/user/load",
-  //         { withCredentials: true }
-  //       );
-  //       window.location.href = "/";
-  //       dispatch({ type: "SIGNUP_SUCCESS", user });
-  //       toast.success("با موفقیت ثبت نام شدید!!!");
-  //     } catch (err) {
-  //       dispatch({
-  //         type: "SIGNUP_REJECT",
-  //         error: err?.response?.data?.message,
-  //       });
-  //       toast.error(err?.response?.data?.message);
-  //     }
-  //   },
+  LOAD_USER:
+    ({ dispatch }) =>
+    async (action) => {
+      dispatch({ type: "SIGNUP_PENDING" });
+      try {
+        const { data: user } = await axios.get(
+          "http://localhost:5000/api/user/load",
+          { withCredentials: true }
+        );
+        // window.location.href = "/";
+        dispatch({ type: "SIGNUP_SUCCESS", payload : user });
+      } catch (err) {
+        dispatch({
+          type: "SIGNUP_REJECT",
+          error: err?.response?.data?.message,
+        });
+      }
+    },
 };
 
 const AuthProvider = ({ children }) => {
@@ -104,6 +102,9 @@ const AuthProvider = ({ children }) => {
     asyncActionHandlers
   );
 
+  useEffect(() => {
+    dispatch({type : "LOAD_USER"})
+  } , [data.loading])
 
 
   return (

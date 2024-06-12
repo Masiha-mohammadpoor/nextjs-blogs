@@ -29,7 +29,7 @@ const Header = () => {
         </li>
       </ul>
       <ul>
-        {userData?.user !== null ? (
+        {userData?.user ? (
           <li>
             <Link href="/profile">پروفایل</Link>
           </li>
