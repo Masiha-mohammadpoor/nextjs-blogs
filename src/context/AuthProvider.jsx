@@ -43,7 +43,7 @@ const asyncActionHandlers = {
           action.payload,
           { withCredentials: true }
         );
-        // window.location.href = "/";
+        window.location.href = "/";
         dispatch({ type: "SIGNIN_SUCCESS", payload: user });
         toast.success("با موفقیت وارد شدید !!!");
       } catch (err) {
@@ -54,6 +54,24 @@ const asyncActionHandlers = {
         toast.error(err?.response?.data?.message);
       }
     },
+    SIGNOUT:
+    ({ dispatch }) =>
+    async (action) => {
+      try {
+        const { data } = await axios.get(
+          "http://localhost:5000/api/user/logout",
+          { withCredentials: true }
+        );
+        window.location.href = "/";
+      } catch (err) {
+        dispatch({
+          type: "SIGNIN_REJECT",
+          error: err?.response?.data?.message,
+        });
+        toast.error(err?.response?.data?.message);
+      }
+    },
+
   SIGNUP:
     ({ dispatch }) =>
     async (action) => {
