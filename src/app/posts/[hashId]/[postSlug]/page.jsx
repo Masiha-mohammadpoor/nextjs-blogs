@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import PostList from "@/components/post/PostList";
 import PostComments from "@/components/PostComments/PostComments";
 import { useCookies } from 'next-client-cookies';
-import axios from "axios";
+import http from "@/services/httpService";
 
 const PostPage = ({ params }) => {
   const [post, setPost] = useState(null);
@@ -27,11 +27,10 @@ const PostPage = ({ params }) => {
       try {
         const {
           data: { data },
-        } = await axios.get(
-          `http://localhost:5000/api/posts/${params.postSlug}`,
+        } = await http.get(
+          `/posts/${params.postSlug}`,
           {
             catch: "no-store",
-            withCredentials: true,
             headers: {
               Cookie: userToken || "",
             },

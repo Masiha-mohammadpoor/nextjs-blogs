@@ -1,6 +1,6 @@
 import PostList from "@/components/post/PostList";
 import CategoryMenu from "@/components/CategoryMenu/CategoryMenu";
-import axios from "axios";
+// import axios from "axios";
 import SortBar from "@/components/SortBar/SortBar";
 import { cookies } from 'next/headers';
 import http from "@/services/httpService";
@@ -19,7 +19,7 @@ const getAllPosts = async () => {
         },
       }
     );
-    console.log(data)
+    // console.log(data)
     return data;
   } catch (err) {
     console.error(err);
