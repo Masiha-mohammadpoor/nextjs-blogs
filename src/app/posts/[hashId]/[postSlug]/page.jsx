@@ -1,5 +1,4 @@
 "use client";
-import axios from "axios";
 import { toPersianDigits } from "@/utils/toPersianDigits";
 import {
   FaRegBookmark,
@@ -15,7 +14,7 @@ import { useEffect, useState } from "react";
 import PostList from "@/components/post/PostList";
 import PostComments from "@/components/PostComments/PostComments";
 import { useCookies } from 'next-client-cookies';
-
+import axios from "axios";
 
 const PostPage = ({ params }) => {
   const [post, setPost] = useState(null);

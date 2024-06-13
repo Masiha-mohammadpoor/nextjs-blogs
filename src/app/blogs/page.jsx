@@ -3,21 +3,23 @@ import CategoryMenu from "@/components/CategoryMenu/CategoryMenu";
 import axios from "axios";
 import SortBar from "@/components/SortBar/SortBar";
 import { cookies } from 'next/headers';
+import http from "@/services/httpService";
+
 
 const getAllPosts = async () => {
   const cookieStore = cookies();
 
   try {
-    const { data } = await axios.get(
-      "http://localhost:5000/api/posts?limit=6",
+    const { data } = await http.get(
+      "/posts?limit=6",
       {
         catch: "no-store",
-        withCredentials: true,
         headers: {
           Cookie: cookieStore || "",
         },
       }
     );
+    console.log(data)
     return data;
   } catch (err) {
     console.error(err);
@@ -26,8 +28,8 @@ const getAllPosts = async () => {
 
 const getCategories = async () => {
   try {
-    const { data } = await axios.get(
-      "http://localhost:5000/api/post-category",
+    const { data } = await http.get(
+      "/post-category",
       { catch: "no-store" }
     );
     return data;
