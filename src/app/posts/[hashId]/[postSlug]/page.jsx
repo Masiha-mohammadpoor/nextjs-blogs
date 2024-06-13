@@ -14,10 +14,14 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useEffect, useState } from "react";
 import PostList from "@/components/post/PostList";
 import PostComments from "@/components/PostComments/PostComments";
+import { useCookies } from 'next-client-cookies';
+
 
 const PostPage = ({ params }) => {
   const [post, setPost] = useState(null);
   const [copied, setCopied] = useState(false);
+  const cookies = useCookies();
+  const userToken = cookies.get('userToken');
 
   useEffect(() => {
     const getPostData = async () => {
@@ -26,7 +30,13 @@ const PostPage = ({ params }) => {
           data: { data },
         } = await axios.get(
           `http://localhost:5000/api/posts/${params.postSlug}`,
-          { catch: "no-store" }
+          {
+            catch: "no-store",
+            withCredentials: true,
+            headers: {
+              Cookie: userToken || "",
+            },
+          }
         );
         setPost(data);
       } catch (err) {
@@ -175,7 +185,7 @@ const PostPage = ({ params }) => {
       </section>
       {/* comments */}
       <section className="max-w-screen-md mx-auto mb-20">
-        <PostComments post={post}/>
+        <PostComments post={post} />
       </section>
     </div>
   );
