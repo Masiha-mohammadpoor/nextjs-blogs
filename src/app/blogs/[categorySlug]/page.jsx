@@ -3,12 +3,17 @@ import CategoryMenu from "@/components/CategoryMenu/CategoryMenu";
 import SortBar from "@/components/SortBar/SortBar";
 import { cookies } from "next/headers";
 import http from "@/services/httpService";
+import queryString from 'query-string';
 
-const getAllPosts = async ({ categorySlug }) => {
+
+const getAllPosts = async ({ categorySlug } , searchParams) => {
   const cookieStore = cookies();
+  const sort = queryString.stringify(searchParams);
+
+
   try {
     const { data } = await http.get(
-      `/posts?limit=6&page=1&categorySlug=${categorySlug}`,
+      `/posts?limit=6&page=1&categorySlug=${categorySlug}&${sort}`,
       {
         catch: "no-store",
         headers: {
@@ -31,8 +36,8 @@ const getCategories = async () => {
   }
 };
 
-const CategoryPage = async ({ params }) => {
-  const blogs = await getAllPosts(params);
+const CategoryPage = async ({ params , searchParams}) => {
+  const blogs = await getAllPosts(params , searchParams);
   const categories = await getCategories();
 
   return (

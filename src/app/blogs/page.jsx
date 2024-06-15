@@ -1,17 +1,18 @@
 import PostList from "@/components/post/PostList";
 import CategoryMenu from "@/components/CategoryMenu/CategoryMenu";
-// import axios from "axios";
 import SortBar from "@/components/SortBar/SortBar";
 import { cookies } from 'next/headers';
 import http from "@/services/httpService";
+import queryString from 'query-string';
 
 
-const getAllPosts = async () => {
+const getAllPosts = async (searchParams) => {
   const cookieStore = cookies();
+  const sort = queryString.stringify(searchParams);
 
   try {
     const { data } = await http.get(
-      "/posts?limit=6",
+      `/posts?limit=6&${sort}`,
       {
         catch: "no-store",
         headers: {
@@ -38,8 +39,8 @@ const getCategories = async () => {
   }
 };
 
-const BlogsPage = async () => {
-  const blogs = await getAllPosts();
+const BlogsPage = async ({searchParams}) => {
+  const blogs = await getAllPosts(searchParams);
   const categories = await getCategories();
 
   return (

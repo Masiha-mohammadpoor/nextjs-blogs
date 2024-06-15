@@ -6,7 +6,6 @@ import { toPersianDigits } from "@/utils/toPersianDigits";
 
 const PostList = ({ blogData , categoryPage}) => {
 
-  console.log(blogData)
 
   return (
     <section className="mb-5 col-span-12 md:col-span-9 grid grid-cols-6 gap-5 container mx-auto">

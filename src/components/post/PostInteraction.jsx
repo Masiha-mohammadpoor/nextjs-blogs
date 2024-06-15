@@ -1,4 +1,3 @@
-"use client";
 import http from "@/services/httpService";
 import { toPersianDigits } from "@/utils/toPersianDigits";
 import toast from "react-hot-toast";
@@ -11,6 +10,7 @@ import {
 } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
+import Router from "next/router";
 
 
 
@@ -18,7 +18,6 @@ const PostInteraction = ({ blog }) => {
 
   const router = useRouter();
   const pathName = usePathname();
-  console.log(pathName)
 
   const clickHandler = async (id) => {
     try{
@@ -26,9 +25,9 @@ const PostInteraction = ({ blog }) => {
         catch:"no-store"
       })
       router.push(pathName , {
-        scroll:false
-        })
-      router.refresh();
+        scroll:false,
+      })
+      router.refresh()
     }catch(err){
       toast.error(err?.response?.data?.message)
     }
@@ -42,7 +41,7 @@ const PostInteraction = ({ blog }) => {
       router.push(pathName , {
         scroll:false,
         })
-      router.refresh();
+        router.refresh()
     }catch(err){
       toast.error(err?.response?.data?.message)
     }
