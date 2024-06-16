@@ -1,25 +1,22 @@
 import PostList from "@/components/post/PostList";
 import CategoryMenu from "@/components/CategoryMenu/CategoryMenu";
 import SortBar from "@/components/SortBar/SortBar";
-import { cookies } from 'next/headers';
+import { cookies } from "next/headers";
 import http from "@/services/httpService";
-import queryString from 'query-string';
-
+import queryString from "query-string";
+import PaginationComponent from "@/components/Pagination/Pagination";
 
 const getAllPosts = async (searchParams) => {
   const cookieStore = cookies();
   const sort = queryString.stringify(searchParams);
 
   try {
-    const { data } = await http.get(
-      `/posts?limit=6&${sort}`,
-      {
-        catch: "no-store",
-        headers: {
-          Cookie: cookieStore || "",
-        },
-      }
-    );
+    const { data } = await http.get(`/posts?${sort}`, {
+      catch: "no-store",
+      headers: {
+        Cookie: cookieStore || "",
+      },
+    });
     // console.log(data)
     return data;
   } catch (err) {
@@ -29,19 +26,17 @@ const getAllPosts = async (searchParams) => {
 
 const getCategories = async () => {
   try {
-    const { data } = await http.get(
-      "/post-category",
-      { catch: "no-store" }
-    );
+    const { data } = await http.get("/post-category", { catch: "no-store" });
     return data;
   } catch (err) {
     console.error(err);
   }
 };
 
-const BlogsPage = async ({searchParams}) => {
+const BlogsPage = async ({ searchParams }) => {
   const blogs = await getAllPosts(searchParams);
   const categories = await getCategories();
+
 
   return (
     <main className="container mx-auto lg:max-w-screen-xl px-3">
@@ -51,7 +46,12 @@ const BlogsPage = async ({searchParams}) => {
         {/* sortBar */}
         <SortBar />
         {/* blogs */}
-        <PostList blogData={blogs.data.docs}/>
+        <PostList blogData={blogs.data.docs} />
+        {blogs.data.totalPages > 1 ? (
+          <PaginationComponent count={blogs.data.totalPages} />
+        ) : (
+          ""
+        )}
       </div>
     </main>
   );

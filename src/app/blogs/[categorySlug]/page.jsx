@@ -4,6 +4,8 @@ import SortBar from "@/components/SortBar/SortBar";
 import { cookies } from "next/headers";
 import http from "@/services/httpService";
 import queryString from 'query-string';
+import PaginationComponent from "@/components/Pagination/Pagination";
+
 
 
 const getAllPosts = async ({ categorySlug } , searchParams) => {
@@ -13,7 +15,7 @@ const getAllPosts = async ({ categorySlug } , searchParams) => {
 
   try {
     const { data } = await http.get(
-      `/posts?limit=6&page=1&categorySlug=${categorySlug}&${sort}`,
+      `/posts?categorySlug=${categorySlug}&${sort}`,
       {
         catch: "no-store",
         headers: {
@@ -49,6 +51,11 @@ const CategoryPage = async ({ params , searchParams}) => {
         <SortBar />
         {/* blogs */}
         <PostList blogData={blogs.data.docs} categoryPage={true} />
+        {blogs.data.totalPages > 1 ? (
+          <PaginationComponent count={blogs.data.totalPages} />
+        ) : (
+          ""
+        )}
       </div>
     </main>
   );

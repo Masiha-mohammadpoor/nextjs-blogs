@@ -30,7 +30,7 @@ const CategoryMenu = ({ categories  }) => {
             }`}
           >
             <Link href="/blogs">
-              <div className={`${!categorySlug ? "bg-purple-400 text-white" : ""} transition-all duration-300 p-3 bg-slate-100 hover:bg-gray-300`}>
+              <div className={`${!categorySlug ? "text-white bg-purple-400" : "bg-slate-100 text-black"} transition-all duration-300 p-3  hover:bg-gray-300`}>
                 All Posts
               </div>
             </Link>
@@ -40,7 +40,7 @@ const CategoryMenu = ({ categories  }) => {
                   key={category._id}
                   href={`/blogs/${category.englishTitle}`}
                 >
-                  <div className={`${categorySlug === category.englishTitle ? "bg-purple-400 text-white" : ""} transition-all duration-300 p-3 bg-slate-100 hover:bg-gray-300`}>
+                  <div className={`${categorySlug === category.englishTitle ? "bg-purple-400 text-white" : "bg-slate-100 text-black"} transition-all duration-300 p-3 hover:bg-gray-300`}>
                     {category.title}
                   </div>
                 </Link>
@@ -51,13 +51,13 @@ const CategoryMenu = ({ categories  }) => {
       </section>
       {/* category mobile */}
       <div className="col-span-12 pb-5 flex md:hidden overflow-auto">
-        <button className={`${!categorySlug ? "bg-purple-400 text-white border-purple-600" : ""} transition-all duration-300 hover:bg-gray-500 hover:text-white whitespace-nowrap border-2 rounded-2xl border-gray-600 text-gray-700 mx-1.5 px-2 py-1`}>
+        <button className={`${!categorySlug ? "bg-purple-400 text-white border-purple-600" : "border-gray-600 text-gray-700"} transition-all duration-300 hover:bg-gray-500 hover:text-white whitespace-nowrap border-2 rounded-2xl mx-1.5 px-2 py-1`}>
           <Link href={`/blogs`}>All Posts</Link>
         </button>
         {categories.data.map((category) => {
           return (
             <button
-              className={`${categorySlug === category.englishTitle ? "bg-purple-400 text-white border-purple-600" : ""} transition-all duration-300 hover:bg-gray-500 hover:text-white whitespace-nowrap border-2 rounded-2xl border-gray-600 text-gray-700 mx-1.5 px-2 py-1`}
+              className={`${categorySlug === category.englishTitle ? "bg-purple-400 text-white border-purple-600" : "border-gray-600 text-gray-700"} transition-all duration-300 hover:bg-gray-500 hover:text-white whitespace-nowrap border-2 rounded-2xl mx-1.5 px-2 py-1`}
               key={category._id}
             >
               <Link href={`/blogs/${category.englishTitle}`}>
