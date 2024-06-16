@@ -42,7 +42,10 @@ const SortBar = () => {
           </div>
           <ul className="flex w-72 justify-between items-center">
             {sortOptions.map(({label , id}) => {
-              return <li onClick={() => sortHandler(id)} key={id} className={`py-3 cursor-pointer text-gray-600 ${sort === id ? "text-purple-500" : ""}`}>{label}</li>
+              return <li onClick={() => sortHandler(id)} key={id} className={`flex flex-col items-center justify-center relative py-3 cursor-pointer text-gray-600 ${sort === id ? "text-purple-500" : ""}`}>
+                {label}
+                <span className={`${sort === id ? "w-12" : "w-0"} rounded-full transition-all duration-200 absolute inline-block h-1 bg-purple-500 bottom-0`}></span>
+              </li>
             })}
           </ul>
         </div>

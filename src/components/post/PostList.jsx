@@ -12,7 +12,7 @@ const PostList = ({ blogData , categoryPage}) => {
       {blogData.map((blog) => {
         return (
           <div
-            className={`flex flex-col overflow-hidden ${categoryPage ? "max-h-[320px]" : "max-h-[365px]"} bg-gray-200 rounded-lg col-span-6 min-[480px]:col-span-3 lg:col-span-2`}
+            className={`flex flex-col overflow-hidden  max-h-[400px] md:max-h-[320px] bg-gray-200 rounded-lg col-span-6 min-[480px]:col-span-3 lg:col-span-2`}
             key={blog._id}
           >
             {/* blogs image */}
