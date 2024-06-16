@@ -2,9 +2,34 @@
 import { useState } from "react";
 import SingleComment from "./SingleComment";
 import ReplyComment from "./ReplyComment";
+import http from "@/services/httpService";
+import toast from "react-hot-toast";
+import { usePathname , useRouter} from "next/navigation";
 
 const PostComments = ({ post }) => {
   const [comment, setComment] = useState("");
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    const data = {
+      content : comment,
+      postId: post._id,
+      responseTo : null
+    }
+
+    try{
+      const {data : res} = await http.post("/post-comment/save-comment" , data);
+      toast.success(res.message);
+      router.push(pathname , {
+        scroll:false
+      })
+    }catch(err){
+      console.log(err)
+      toast.error(err?.response?.data?.message)
+    }
+  }
 
   return (
     <div>
@@ -13,10 +38,11 @@ const PostComments = ({ post }) => {
         if (!comment.responseTo && comment.status === 2) {
           return (
             <>
-              <SingleComment key={comment._id} comment={comment} />
+              <SingleComment key={comment._id} comment={comment} postId={post._id}/>
               <ReplyComment
                 comments={post.comments}
                 parentCommentId={comment._id}
+                postId={post._id}
               />
             </>
           );
@@ -24,7 +50,7 @@ const PostComments = ({ post }) => {
       })}
 
       {/* comment form */}
-      <form className="mt-10">
+      <form onSubmit={submitHandler} className="mt-10">
         <h2 className="font-bold mb-4">ارسال دیدگاه جدید</h2>
         <textarea
           onChange={(e) => setComment(e.target.value)}
