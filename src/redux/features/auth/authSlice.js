@@ -40,6 +40,23 @@ export const signupAsync = createAsyncThunk("auth/signup", async (payload) => {
   }
 });
 
+export const signoutAsync = createAsyncThunk("auth/signout", async () => {
+  try {
+    const { data } = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/user/logout`,
+      { withCredentials: true }
+    );
+    window.location.href = "/";
+    return data;
+  } catch (err) {
+    toast.error(err?.response?.data?.message);
+    return err?.response?.data?.message;
+  }
+});
+
+
+
+
 const authSlice = createSlice({
   name: "auth",
   initialState,

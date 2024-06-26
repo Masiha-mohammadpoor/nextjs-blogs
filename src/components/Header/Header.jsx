@@ -3,11 +3,14 @@ import { useAuth, useAuthActions } from "@/context/AuthProvider";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { FaPowerOff } from "react-icons/fa";
+import { signoutAsync } from "@/redux/features/auth/authSlice";
+import { useDispatch } from "react-redux";
+
 
 const Header = () => {
   const [userData, setUserData] = useState(null);
   const data = useAuth();
-  const dispatch = useAuthActions();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const printUser = async () => {
@@ -35,7 +38,7 @@ const Header = () => {
           >
             <li>
               <button
-                onClick={() => dispatch({ type: "SIGNOUT" })}
+                onClick={() => dispatch(signoutAsync())}
                 className="bg-red-600 text-white p-1 rounded-md flex justify-between items-center"
               >
                 خروج <FaPowerOff className="mr-2" />
