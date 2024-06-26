@@ -4,6 +4,8 @@ import Input from "@/components/Input/Input";
 import * as Yup from "yup";
 import { toPersianDigits } from "@/utils/toPersianDigits";
 import { useAuthActions } from "@/context/AuthProvider";
+import { signupAsync } from "@/redux/features/auth/authSlice";
+import { useDispatch } from "react-redux";
 
 const initialValues = {
   name: "",
@@ -14,14 +16,11 @@ const initialValues = {
 };
 
 const SignUp = () => {
-  const dispatch = useAuthActions();
+  const dispatch = useDispatch();
 
   const submitHandler = async (values) => {
     const { name, email, phoneNumber, password } = values;
-    dispatch({
-      type: "SIGNUP",
-      payload: { name, email, phoneNumber, password },
-    });
+    dispatch(signupAsync({ name, email, phoneNumber, password }));
   };
 
   const validationSchema = Yup.object({
