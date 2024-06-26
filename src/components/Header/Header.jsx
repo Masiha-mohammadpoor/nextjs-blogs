@@ -1,24 +1,16 @@
 "use client";
-import { useAuth, useAuthActions } from "@/context/AuthProvider";
 import Link from "next/link";
-import { useState, useEffect } from "react";
 import { FaPowerOff } from "react-icons/fa";
 import { signoutAsync } from "@/redux/features/auth/authSlice";
-import { useDispatch } from "react-redux";
+import { useSelector ,useDispatch} from "react-redux";
+
 
 
 const Header = () => {
-  const [userData, setUserData] = useState(null);
-  const data = useAuth();
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const printUser = async () => {
-      const user = await data;
-      setUserData(user);
-    };
-    printUser();
-  });
+  const dispatch = useDispatch()
+  const userData = useSelector(state => state.auth);
+  console.log(userData)
 
   const renderComponent = () => {
     return (

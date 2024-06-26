@@ -4,11 +4,11 @@ import toast from "react-hot-toast";
 
 const initialState = {
   user: null,
-  loading: false,
+  loading: true,
   error: null,
 };
 
-export const signinAsync = createAsyncThunk("auth/signin", async (payload) => {
+export const signinAsync = createAsyncThunk("auth/signin", async (payload , {rejectWithValue}) => {
   try {
     const { data } = await axios.post(
       `${process.env.NEXT_PUBLIC_BASE_API_URL}/user/signin`,
@@ -20,11 +20,11 @@ export const signinAsync = createAsyncThunk("auth/signin", async (payload) => {
     return data;
   } catch (err) {
     toast.error(err?.response?.data?.message);
-    return err?.response?.data?.message;
+    return rejectWithValue(err?.response?.data?.message);
   }
 });
 
-export const signupAsync = createAsyncThunk("auth/signup", async (payload) => {
+export const signupAsync = createAsyncThunk("auth/signup", async (payload , {rejectWithValue}) => {
   try {
     const { data } = await axios.post(
       `${process.env.NEXT_PUBLIC_BASE_API_URL}/user/signup`,
@@ -36,11 +36,11 @@ export const signupAsync = createAsyncThunk("auth/signup", async (payload) => {
     return data;
   } catch (err) {
     toast.error(err?.response?.data?.message);
-    return err?.response?.data?.message;
+    return rejectWithValue(err?.response?.data?.message);
   }
 });
 
-export const signoutAsync = createAsyncThunk("auth/signout", async () => {
+export const signoutAsync = createAsyncThunk("auth/signout", async (payload , {rejectWithValue}) => {
   try {
     const { data } = await axios.get(
       `${process.env.NEXT_PUBLIC_BASE_API_URL}/user/logout`,
@@ -50,9 +50,24 @@ export const signoutAsync = createAsyncThunk("auth/signout", async () => {
     return data;
   } catch (err) {
     toast.error(err?.response?.data?.message);
-    return err?.response?.data?.message;
+    return rejectWithValue(err?.response?.data?.message);
   }
 });
+
+export const loadUser = createAsyncThunk("auth/loadUser", async (payload , {rejectWithValue}) => {
+  try {
+    const { data } = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/user/load`,
+      { withCredentials: true }
+    );
+    return data;
+  } catch (err) {
+    console.log(err?.response?.data?.message)
+    toast.error(err?.response?.data?.message);
+    return rejectWithValue(err?.response?.data?.message);
+  }
+});
+
 
 
 
@@ -80,7 +95,19 @@ const authSlice = createSlice({
       }),
       builder.addCase(signupAsync.rejected, (state, action) => {
         return { user: null, error: action.error, loading: false };
+      }),
+      // load user
+      builder.addCase(loadUser.fulfilled, (state, action) => {
+        return { error: null, loading: false, user: action.payload };
+      }),
+      builder.addCase(loadUser.pending, (state, action) => {
+
+        return { ...state, loading: true };
+      }),
+      builder.addCase(loadUser.rejected, (state, action) => {
+        return { ...state , error : action.error , loading : false};
       });
+
   },
 });
 
