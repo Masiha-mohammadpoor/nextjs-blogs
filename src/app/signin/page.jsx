@@ -5,6 +5,9 @@ import * as Yup from "yup";
 import { toPersianDigits } from "@/utils/toPersianDigits";
 import axios from "axios";
 import { useAuthActions } from "@/context/AuthProvider";
+import {signinAsync} from "@/redux/features/auth/authSlice";
+import { useDispatch } from "react-redux";
+
 
 const initialValues = {
   email: "",
@@ -14,7 +17,7 @@ const initialValues = {
 
 const SignIn = () => {
 
-  const dispatch = useAuthActions();
+  const dispatch = useDispatch();
 
   const validationSchema = Yup.object({
     email : Yup.string().email("ایمیل نادرست است").required("ایمیل را وارد کنید"),
@@ -22,7 +25,7 @@ const SignIn = () => {
   })
 
   const submitHandler = async (values) => {
-    dispatch({type : "SIGNIN" , payload : values})
+    dispatch(signinAsync(values));
   }
   
 
