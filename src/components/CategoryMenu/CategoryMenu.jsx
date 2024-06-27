@@ -50,7 +50,7 @@ const CategoryMenu = ({ categories  }) => {
         </div>
       </section>
       {/* category mobile */}
-      <div className="col-span-12 pb-5 flex md:hidden overflow-auto">
+      <div className="col-span-12 pb-5 flex justify-center md:hidden overflow-auto">
         <button className={`${!categorySlug ? "bg-purple-400 text-white border-purple-600" : "border-gray-600 text-gray-700"} transition-all duration-300 hover:bg-gray-500 hover:text-white whitespace-nowrap border-2 rounded-2xl mx-1.5 px-2 py-1`}>
           <Link href={`/blogs`}>All Posts</Link>
         </button>

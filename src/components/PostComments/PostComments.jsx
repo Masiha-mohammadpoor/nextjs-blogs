@@ -32,7 +32,7 @@ const PostComments = ({ post }) => {
   }
 
   return (
-    <div>
+    <div className="px-2">
       <h1 className="mb-5 text-3xl font-black">نظرات</h1>
       {post.comments.map((comment, index) => {
         if (!comment.responseTo && comment.status === 2) {
