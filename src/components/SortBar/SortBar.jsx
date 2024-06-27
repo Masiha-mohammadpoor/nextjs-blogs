@@ -34,15 +34,15 @@ const SortBar = () => {
 
 
     return ( 
-        <section className="hidden md:block md:col-span-9">
-        <div className="bg-slate-100 flex rounded-xl overflow-hidden pr-3">
-          <div className="flex ml-8 items-center">
+        <section className=" md:block md:col-span-9 overflow-x-auto col-span-12">
+        <div className="flex rounded-xl overflow-hidden pr-3">
+          <div className="flex ml-4 md:ml-8 items-center">
             <FaSortAmountDownAlt className="ml-1"/>
-            <p>مرتب سازی:</p>
+            <p className="text-xs font-bold md:text-base">مرتب سازی:</p>
           </div>
-          <ul className="flex w-72 justify-between items-center">
+          <ul className="flex pl-2 md:pl-0 w-80 justify-between items-center">
             {sortOptions.map(({label , id}) => {
-              return <li onClick={() => sortHandler(id)} key={id} className={`flex flex-col items-center justify-center relative py-3 cursor-pointer text-gray-600 ${sort === id ? "text-purple-500" : ""}`}>
+              return <li onClick={() => sortHandler(id)} key={id} className={`flex flex-col text-xs md:text-base font-bold md:font-normal items-center justify-center relative py-3 cursor-pointer text-gray-600 ${sort === id ? "text-purple-500" : ""}`}>
                 {label}
                 <span className={`${sort === id ? "w-12" : "w-0"} rounded-full transition-all duration-200 absolute inline-block h-1 bg-purple-500 bottom-0`}></span>
               </li>

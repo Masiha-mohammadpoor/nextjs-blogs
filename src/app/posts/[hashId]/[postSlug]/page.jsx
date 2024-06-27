@@ -57,7 +57,7 @@ const PostPage = ({ params }) => {
       <header className="px-3 mb-20 flex flex-col sm:flex-row justify-between items-center max-w-screen-md mx-auto">
         <article className="flex mb-4 sm:mb-0">
           <img
-            src="/images/nuxtjs.jpg"
+            src="/images/user.png"
             alt="writer"
             className="ml-4 w-16 h-16 rounded-full object-cover"
           />
