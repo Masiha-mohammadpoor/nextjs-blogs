@@ -1,3 +1,4 @@
+"use client";
 import http from "@/services/httpService";
 import { toPersianDigits } from "@/utils/toPersianDigits";
 import toast from "react-hot-toast";
@@ -8,44 +9,53 @@ import {
   FaRegHeart,
   FaRegBookmark,
 } from "react-icons/fa";
-import { useRouter } from "next/navigation";
-import { usePathname } from "next/navigation";
-import Router from "next/router";
-
-
+import { useState, useEffect } from "react";
 
 const PostInteraction = ({ blog }) => {
+  const [like, setLike] = useState(false);
+  const [likesCount, setLikesCount] = useState(0);
+  const [bookmark, setBookmark] = useState(false);
 
-  const router = useRouter();
-  const pathName = usePathname();
+  useEffect(() => {
+    const getLikesAndComment = async () => {
+      try {
+        const {
+          data: { data },
+        } = await http.get(`/posts/${blog.slug}`);
+        setLike(data.isLiked);
+        setLikesCount(data.likesCount);
+        setBookmark(data.isBookmarked);
+      } catch (err) {
+        toast.error("please refresh page");
+      }
+    };
+    getLikesAndComment();
+  }, []);
 
-  const clickHandler = async (id) => {
-    try{
-      const {data} = await http.put(`/posts/like/${id}` , {
-        catch:"no-store"
-      })
-      router.push(pathName , {
-        scroll:false,
-      })
-      router.refresh()
-    }catch(err){
-      toast.error(err?.response?.data?.message)
+  const likeHandler = async (id) => {
+    try {
+      const likePost = await http.put(`/posts/like/${id}`);
+      const {
+        data: { data },
+      } = await http.get(`/posts/${blog.slug}`);
+      setLike(data.isLiked);
+      setLikesCount(data.likesCount);
+    } catch (err) {
+      toast.error(err?.response?.data?.message);
     }
-  }
+  };
 
   const bookmarkHandler = async (id) => {
-    try{
-      const {data} = await http.put(`/posts/bookmark/${id}` , {
-        catch:"no-store"
-      })
-      router.push(pathName , {
-        scroll:false,
-        })
-        router.refresh()
-    }catch(err){
-      toast.error(err?.response?.data?.message)
+    try {
+      const bookmarkPost = await http.put(`/posts/bookmark/${id}`);
+      const {
+        data: { data },
+      } = await http.get(`/posts/${blog.slug}`);
+      setBookmark(data.isBookmarked);
+    } catch (err) {
+      toast.error(err?.response?.data?.message);
     }
-  }
+  };
 
   return (
     <div className="flex gap-x-2">
@@ -56,19 +66,19 @@ const PostInteraction = ({ blog }) => {
         </span>
       </button>
       <button
-        onClick={() => clickHandler(blog._id)}
+        onClick={() => likeHandler(blog._id)}
         className={`transition-all duration-300 hover:bg-red-600  hover:text-white flex items-center py-1 px-1 rounded-lg text-red-600 bg-red-300`}
       >
-        {blog.isLiked ? <FaHeart /> : <FaRegHeart />}{" "}
+        {like ? <FaHeart /> : <FaRegHeart />}{" "}
         <span className="text-xs font-bold mr-1">
-          {toPersianDigits(blog.likesCount)}
+          {toPersianDigits(likesCount)}
         </span>
       </button>
       <button
-      onClick={() => bookmarkHandler(blog._id)}
+        onClick={() => bookmarkHandler(blog._id)}
         className={`transition-all duration-300 hover:bg-blue-600 hover:text-white flex items-center py-1 px-1 rounded-lg text-blue-600 bg-blue-300`}
       >
-        {blog.isBookmarked ? <FaBookmark /> : <FaRegBookmark />}{" "}
+        {bookmark ? <FaBookmark /> : <FaRegBookmark />}{" "}
         <span className="text-xs font-bold"></span>
       </button>
     </div>

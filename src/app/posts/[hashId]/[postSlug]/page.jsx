@@ -51,6 +51,8 @@ const PostPage = ({ params }) => {
     }, 1000);
   };
 
+
+
   if (!post) return <div className="text-center mt-20">loading...</div>;
   return (
     <div className="container mx-auto lg:max-w-screen-xl">
@@ -148,7 +150,7 @@ const PostPage = ({ params }) => {
         })}
       </section>
       <section className="flex justify-between items-center px-3 sm:px-0 max-w-screen-md mx-auto gap-x-4">
-        <PostInteraction blog={post} />
+        <PostInteraction blog={post}/>
         <div className="flex gap-x-4 text-xl text-gray-500">
           <a
             target="_blank"
